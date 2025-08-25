@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mujomba Isolation | Réalisations</title>
+  <link rel="stylesheet" href="stylesmuj.css" />
+  <style>
+    .projects-page {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      color: var(--text-dark);
+    }
+    .projects-page h1 {
+      color: var(--blue-ocean);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .project {
+      margin-bottom: 3.5rem;
+      background: var(--white);
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .project h2 {
+      color: var(--blue-ocean);
+      margin-bottom: 1rem;
+    }
+
+    .project-description {
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+
+    /* Before-After container */
+    .before-after {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      user-select: none;
+    }
+
+    .before-after img {
+      width: 100%;
+      display: block;
+    }
+
+    .after-image {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 50%;
+      overflow: hidden;
+      transition: width 0.3s ease;
+    }
+
+    .after-image img {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Slider handle */
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background-color: var(--blue-ocean);
+      cursor: ew-resize;
+      z-index: 10;
+      transition: background-color 0.3s ease;
+    }
+    .slider-handle:hover {
+      background-color: #004e87;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .before-after {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">Mujomba Isolation</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html" class="active">Réalisations</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="section projects-page">
+    <h1>Nos Réalisations</h1>
+
+    <section class="project">
+      <h2>Isolation des combles - Maison familiale</h2>
+      <p class="project-description">
+        Amélioration significative du confort thermique et réduction des factures d’énergie grâce à une isolation performante des combles.
+      </p>
+
+      <div class="before-after" id="project1">
+        <img src="combles-before.jpg" alt="Avant isolation des combles" />
+        <div class="after-image">
+          <img src="combles-after.jpg" alt="Après isolation des combles" />
+        </div>
+        <div class="slider-handle"></div>
+      </div>
+    </section>
+
+    <section class="project">
+      <h2>Isolation thermique par l'extérieur - Immeuble résidentiel</h2>
+      <p class="project-description">
+        Rénovation énergétique complète avec isolation par l’extérieur, amélioration de l’apparence et de la performance thermique.
+      </p>
+
+      <div class="before-after" id="project2">
+        <img src="exterieur-before.jpg" alt="Avant isolation thermique extérieure" />
+        <div class="after-image">
+          <img src="exterieur-after.jpg" alt="Après isolation thermique extérieure" />
+        </div>
+        <div class="slider-handle"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mujomba Isolation. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.before-after').forEach(container => {
+      const afterImage = container.querySelector('.after-image');
+      const slider = container.querySelector('.slider-handle');
+
+      let isDragging = false;
+
+      const startDrag = e => {
+        isDragging = true;
+        container.classList.add('dragging');
+      };
+
+      const stopDrag = e => {
+        isDragging = false;
+        container.classList.remove('dragging');
+      };
+
+      const moveDrag = e => {
+        if (!isDragging) return;
+
+        // Get container position and width
+        const rect = container.getBoundingClientRect();
+        let x = 0;
+        if(e.type.startsWith('touch')) {
+          x = e.touches[0].clientX - rect.left;
+        } else {
+          x = e.clientX - rect.left;
+        }
+        if (x < 0) x = 0;
+        if (x > rect.width) x = rect.width;
+
+        // Set width of after image and position of slider
+        const percent = (x / rect.width) * 100;
+        afterImage.style.width = percent + '%';
+        slider.style.left = percent + '%';
+      };
+
+      // Initialize slider position
+      afterImage.style.width = '50%';
+      slider.style.left = '50%';
+
+      // Mouse events
+      slider.addEventListener('mousedown', startDrag);
+      window.addEventListener('mouseup', stopDrag);
+      window.addEventListener('mousemove', moveDrag);
+
+      // Touch events
+      slider.addEventListener('touchstart', startDrag);
+      window.addEventListener('touchend', stopDrag);
+      window.addEventListener('touchmove', moveDrag);
+    });
+  </script>
+</body>
+</html>
