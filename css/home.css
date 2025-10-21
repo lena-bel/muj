@@ -57,7 +57,6 @@ img{
 .contact-cta {
   background-color: var(--blue-ocean);
   color: var(--white);
-  border-radius: 8px;
 }
 
 .why-choose-us {
@@ -75,4 +74,10 @@ img{
   margin-left: 1.5rem;
   line-height: 1.7;
   font-weight: 600;
+}
+
+@media (max-width: 768px) {
+ .contact-cta{
+  border-radius: none !important;
+ }
 }
