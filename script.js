@@ -13,11 +13,9 @@ controls.enableZoom = true;
 controls.minDistance = 2;
 controls.maxDistance = 10;
 
-// Light
 const light = new THREE.AmbientLight(0xffffff, 1);
 scene.add(light);
 
-// Jar simulation with 12 panels
 const sides = 12;
 const radius = 1;
 const height = 1.5;
@@ -37,7 +35,6 @@ for (let i = 0; i < sides; i++) {
   scene.add(panel);
 }
 
-// Top and bottom disks
 const topGeo = new THREE.CircleGeometry(radius, 32);
 const topMat = new THREE.MeshBasicMaterial({ color: 0xffdce0, side: THREE.DoubleSide });
 const topDisk = new THREE.Mesh(topGeo, topMat);
@@ -48,7 +45,6 @@ scene.add(topDisk);
 const bottomDisk = topDisk.clone();
 bottomDisk.position.y = -height / 2;
 scene.add(bottomDisk);
-// Animation loop
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
@@ -62,3 +58,4 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
